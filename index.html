@@ -1,127 +1,862 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Music Fest 2025</title>
-
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event Fest • Live Shows, Singers & Tickets</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Soft animated gradient background */
+    .bg-animated {
+      background: radial-gradient(1200px 600px at 0% 0%, rgba(255,255,255,0.10), transparent 60%),
+                  radial-gradient(900px 500px at 100% 0%, rgba(255,255,255,0.06), transparent 60%),
+                  radial-gradient(800px 500px at 50% 100%, rgba(255,255,255,0.08), transparent 60%),
+                  linear-gradient(135deg, #0ea5e9, #7c3aed, #ef4444, #f59e0b);
+      background-size: 140% 140%;
+      animation: gradientShift 20s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+    .glass {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.08);
+    }
+    .glass-strong {
+      backdrop-filter: blur(16px);
+      background: rgba(255,255,255,0.12);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .focus-ring:focus-visible { outline: 3px solid rgba(255,255,255,0.7); outline-offset: 2px; }
+  </style>
 </head>
-<body class="bg-light">
+<body class="min-h-screen bg-slate-900 text-white bg-animated">
+  <!-- Demo badge -->
+  <div class="fixed top-3 left-3 z-50">
+    <span class="px-3 py-1 rounded-full text-xs font-semibold glass shadow-lg">Demo • No real payments</span>
+  </div>
 
-  <!-- ===== NAVBAR ===== -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#">Music Fest</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#lineup">Line-Up</a></li>
-          <li class="nav-item"><a class="nav-link" href="#schedule">Schedule</a></li>
-          <li class="nav-item"><a class="nav-link" href="#tickets">Tickets</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- ===== HERO SECTION ===== -->
-  <header id="home" class="vh-100 bg-dark text-white d-flex align-items-center"
-          style="background: url('https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;">
-    <div class="container text-center bg-dark bg-opacity-50 p-4 rounded-3">
-      <h1 class="display-3 fw-bold">Summer Music Fest 2025</h1>
-      <p class="lead mb-4">An unforgettable weekend of music, food & fun by the lake.</p>
-      <a href="#tickets" class="btn btn-warning btn-lg me-2">Buy Tickets</a>
-      <a href="#lineup" class="btn btn-outline-light btn-lg">See Artists</a>
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4">
+      <nav class="glass-strong rounded-xl mt-4 px-4 py-3 flex items-center justify-between shadow-lg">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+            <!-- Simple music note icon -->
+            <svg width="22" height="22" viewBox="0 0 24 24" class="text-white/90"><path fill="currentColor" d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+          </div>
+          <div>
+            <div class="text-lg font-bold tracking-wide">Event Fest</div>
+            <div class="text-xs text-white/70 -mt-0.5">Live • Music • Experience</div>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-2">
+          <a href="#shows" class="px-3 py-2 rounded-lg hover:bg-white/10 transition focus-ring">Live Shows</a>
+          <a href="#artists" class="px-3 py-2 rounded-lg hover:bg-white/10 transition focus-ring">Singers</a>
+          <a href="#services" class="px-3 py-2 rounded-lg hover:bg-white/10 transition focus-ring">Services</a>
+          <a href="#tickets" class="px-3 py-2 rounded-lg hover:bg-white/10 transition focus-ring">Tickets</a>
+          <a href="#faq" class="px-3 py-2 rounded-lg hover:bg-white/10 transition focus-ring">FAQ</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="openBookingHero" class="bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-4 py-2 shadow focus-ring">Book Tickets</button>
+        </div>
+      </nav>
     </div>
   </header>
 
-  <!-- ===== FEATURED ARTISTS ===== -->
-  <section id="lineup" class="container py-5">
-    <h2 class="text-center mb-5 fw-bold">Featured Artists</h2>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="DJ Pulse performing">
-          <div class="card-body">
-            <h5 class="card-title">DJ Pulse</h5>
-            <p class="card-text">High-energy EDM sets that light up the night.</p>
+  <!-- Hero -->
+  <section class="max-w-7xl mx-auto px-4">
+    <div class="mt-6 rounded-2xl glass-strong px-6 md:px-10 py-10 md:py-14 shadow-xl relative overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-20 -left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl"></div>
+      </div>
+      <div class="relative z-10 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Feel the Beat at Event Fest 2025</h1>
+          <p class="text-white/85 mt-4 text-lg md:text-xl">3 days • 40+ artists • 4 stages • City Park Grounds</p>
+          <div class="flex flex-wrap gap-3 mt-6">
+            <button id="bookTicketsBtn" class="bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-xl px-5 py-3 shadow-lg focus-ring">Book Now</button>
+            <a href="#lineup" id="exploreLineup" class="glass hover:bg-white/10 rounded-xl px-5 py-3 font-semibold focus-ring">Explore Lineup</a>
+          </div>
+          <div class="flex gap-3 mt-6 flex-wrap">
+            <span class="text-xs bg-emerald-400/20 text-emerald-50 px-3 py-1.5 rounded-full">Live Shows</span>
+            <span class="text-xs bg-fuchsia-400/20 text-fuchsia-50 px-3 py-1.5 rounded-full">Top Singers</span>
+            <span class="text-xs bg-sky-400/20 text-sky-50 px-3 py-1.5 rounded-full">Instant Booking</span>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Acoustic Trio band photo">
-          <div class="card-body">
-            <h5 class="card-title">The Acoustic Trio</h5>
-            <p class="card-text">Laid-back unplugged vibes for a breezy afternoon.</p>
+        <div class="glass rounded-2xl p-5 md:p-6">
+          <div class="text-sm text-white/80 mb-3">Quick Search</div>
+          <div class="flex gap-3">
+            <div class="relative flex-1">
+              <input id="globalSearch" type="text" placeholder="Search shows, singers, stages..." class="w-full bg-white/10 placeholder-white/60 rounded-xl px-4 py-3 focus-ring" />
+              <div class="absolute right-3 top-2.5 text-white/60" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 5l1.5-1.5l-5-5zm-6 0A4.5 4.5 0 1 1 14 9.5A4.505 4.505 0 0 1 9.5 14"/></svg>
+              </div>
+            </div>
+            <button id="clearSearch" class="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/15 focus-ring">Clear</button>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-          <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Rock Nation performing live">
-          <div class="card-body">
-            <h5 class="card-title">Rock Nation</h5>
-            <p class="card-text">Explosive rock anthems to close the festival in style.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <button data-day="All" class="chip-day active px-3 py-1.5 rounded-full bg-white text-slate-900 text-xs font-semibold">All Days</button>
+            <button data-day="Day 1" class="chip-day px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs">Day 1</button>
+            <button data-day="Day 2" class="chip-day px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs">Day 2</button>
+            <button data-day="Day 3" class="chip-day px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs">Day 3</button>
+            <span class="mx-1 opacity-50">•</span>
+            <button data-stage="All" class="chip-stage active px-3 py-1.5 rounded-full bg-white text-slate-900 text-xs font-semibold">All Stages</button>
+            <button data-stage="Main" class="chip-stage px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs">Main</button>
+            <button data-stage="Indigo" class="chip-stage px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs">Indigo</button>
+            <button data-stage="Echo" class="chip-stage px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs">Echo</button>
           </div>
+          <div class="text-xs text-white/70 mt-3">Tip: Use the chips to quickly filter the schedule.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== SCHEDULE ===== -->
-  <section id="schedule" class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center mb-4 fw-bold">Festival Schedule</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-          <thead class="table-dark">
-            <tr>
-              <th>Day</th>
-              <th>Time</th>
-              <th>Event</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Friday</td><td>6 PM</td><td>Opening Ceremony & DJ Pulse</td></tr>
-            <tr><td>Saturday</td><td>1 PM</td><td>Acoustic Sessions & Food Fair</td></tr>
-            <tr><td>Sunday</td><td>7 PM</td><td>Grand Finale with Rock Nation</td></tr>
-          </tbody>
-        </table>
+  <!-- Content sections -->
+  <main class="max-w-7xl mx-auto px-4 mt-10 space-y-10" id="lineup">
+    <!-- Shows -->
+    <section id="shows">
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold">Live Shows</h2>
+          <p class="text-white/80 mt-1">Pick a set you love and reserve your spot.</p>
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-sm text-white/70">
+          <span class="px-2.5 py-1 rounded-full bg-white/10">Local time</span>
+        </div>
+      </div>
+      <div id="showsList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- Artists -->
+    <section id="artists">
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold">Singer Lineup</h2>
+          <p class="text-white/80 mt-1">Discover artists and jump into their shows.</p>
+        </div>
+      </div>
+      <div id="artistsList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- Services -->
+    <section id="services">
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold">Festival Services</h2>
+          <p class="text-white/80 mt-1">Add extras to make your experience easier.</p>
+        </div>
+      </div>
+      <div id="servicesList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="addServicesToBooking" class="bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-4 py-2 focus-ring">Add Selected Services to Booking</button>
+        <button id="openBookingFromServices" class="glass hover:bg-white/10 rounded-lg px-4 py-2 focus-ring">Book with Services</button>
+      </div>
+    </section>
+
+    <!-- Tickets -->
+    <section id="tickets">
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold">Tickets & Passes</h2>
+          <p class="text-white/80 mt-1">Choose your vibe. Upgrade anytime.</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-4">
+        <!-- General -->
+        <div class="glass rounded-2xl p-6 flex flex-col">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-bold">General</h3>
+            <span class="text-sm bg-white/10 px-2 py-1 rounded">Best Value</span>
+          </div>
+          <div class="text-4xl font-extrabold mt-2">$49</div>
+          <ul class="mt-4 space-y-2 text-white/85 text-sm">
+            <li>• Access to any stage</li>
+            <li>• Free water stations</li>
+            <li>• Festival map app</li>
+          </ul>
+          <button data-ticket="General" class="selectTicket mt-6 bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-4 py-2 focus-ring">Select</button>
+        </div>
+        <!-- VIP -->
+        <div class="glass rounded-2xl p-6 flex flex-col border border-yellow-400/30">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-bold">VIP</h3>
+            <span class="text-sm bg-yellow-400/20 text-yellow-50 px-2 py-1 rounded">Popular</span>
+          </div>
+          <div class="text-4xl font-extrabold mt-2">$119</div>
+          <ul class="mt-4 space-y-2 text-white/85 text-sm">
+            <li>• VIP lounge access</li>
+            <li>• Priority entry lanes</li>
+            <li>• Exclusive viewing area</li>
+          </ul>
+          <button data-ticket="VIP" class="selectTicket mt-6 bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-4 py-2 focus-ring">Select</button>
+        </div>
+        <!-- Backstage -->
+        <div class="glass rounded-2xl p-6 flex flex-col">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-bold">Backstage</h3>
+            <span class="text-sm bg-fuchsia-400/20 text-fuchsia-50 px-2 py-1 rounded">Limited</span>
+          </div>
+          <div class="text-4xl font-extrabold mt-2">$199</div>
+          <ul class="mt-4 space-y-2 text-white/85 text-sm">
+            <li>• Backstage tour</li>
+            <li>• Meet & greet access</li>
+            <li>• Merch gift pack</li>
+          </ul>
+          <button data-ticket="Backstage" class="selectTicket mt-6 bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-4 py-2 focus-ring">Select</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- My Bookings -->
+    <section id="my-bookings">
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold">My Bookings</h2>
+          <p class="text-white/80 mt-1">Your confirmed reservations will appear here.</p>
+        </div>
+      </div>
+      <div id="bookingsList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="glass rounded-2xl p-6 text-white/80">
+          No bookings yet. Book your first show to see it here!
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold">FAQ</h2>
+          <p class="text-white/80 mt-1">Quick answers to common questions.</p>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <details class="glass rounded-xl p-4">
+          <summary class="cursor-pointer font-semibold">Is this a real checkout?</summary>
+          <div class="mt-2 text-white/85">This is a demo experience for planning and mock bookings only. No real payments are processed.</div>
+        </details>
+        <details class="glass rounded-xl p-4">
+          <summary class="cursor-pointer font-semibold">Can I download my ticket?</summary>
+          <div class="mt-2 text-white/85">Yes! After confirming, download a ticket file and add it to your calendar.</div>
+        </details>
+        <details class="glass rounded-xl p-4">
+          <summary class="cursor-pointer font-semibold">How do I change my booking?</summary>
+          <div class="mt-2 text-white/85">Make a new booking with the correct details and ignore the previous one. In this demo, bookings are local to your browser.</div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- Booking Modal -->
+  <div id="bookingModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-3xl mx-auto my-8">
+      <div class="glass-strong rounded-2xl mx-4 p-5 md:p-6 shadow-2xl">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 class="text-2xl font-extrabold">Book Tickets</h3>
+            <p class="text-white/80 mt-1 text-sm">Complete your booking below. It’s fast and easy.</p>
+          </div>
+          <button id="closeBooking" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 focus-ring" aria-label="Close booking">✕</button>
+        </div>
+
+        <form id="bookingForm" class="mt-4 grid md:grid-cols-2 gap-4">
+          <!-- Left -->
+          <div class="space-y-3">
+            <div>
+              <label class="text-sm text-white/80">Select Show</label>
+              <select id="fieldShow" class="w-full bg-white/10 rounded-lg px-3 py-2 mt-1 focus-ring"></select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-sm text-white/80">Ticket Type</label>
+                <select id="fieldType" class="w-full bg-white/10 rounded-lg px-3 py-2 mt-1 focus-ring">
+                  <option>General</option>
+                  <option>VIP</option>
+                  <option>Backstage</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-sm text-white/80">Quantity</label>
+                <div class="mt-1 flex items-center bg-white/10 rounded-lg overflow-hidden">
+                  <button type="button" id="qtyMinus" class="px-3 py-2 hover:bg-white/10">−</button>
+                  <input id="fieldQty" type="number" min="1" max="10" value="1" class="w-full text-center bg-transparent py-2 focus-ring" />
+                  <button type="button" id="qtyPlus" class="px-3 py-2 hover:bg-white/10">+</button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="text-sm text-white/80">Add-ons</label>
+              <div id="addonsList" class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div class="space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label class="text-sm text-white/80">Your Name</label>
+                <input id="fieldName" type="text" placeholder="Full name" class="w-full bg-white/10 rounded-lg px-3 py-2 mt-1 focus-ring" />
+              </div>
+              <div>
+                <label class="text-sm text-white/80">Email</label>
+                <input id="fieldEmail" type="email" placeholder="name@email.com" class="w-full bg-white/10 rounded-lg px-3 py-2 mt-1 focus-ring" />
+              </div>
+            </div>
+
+            <div class="rounded-xl glass p-4">
+              <div class="flex items-center justify-between">
+                <span class="text-white/80">Per ticket</span>
+                <span id="perTicket" class="font-bold">$0</span>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="text-white/80">Add-ons</span>
+                <span id="addonsPrice" class="font-bold">$0</span>
+              </div>
+              <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10">
+                <span class="text-lg font-extrabold">Total</span>
+                <span id="totalPrice" class="text-2xl font-extrabold">$0</span>
+              </div>
+              <div id="priceNote" class="mt-2 text-xs text-white/70">Prices shown are for this demo. No real payments.</div>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+              <button id="confirmBooking" class="bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-4 py-2 focus-ring">Confirm Booking</button>
+              <button id="cancelBooking" class="glass hover:bg-white/10 rounded-lg px-4 py-2 focus-ring" type="button">Cancel</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ===== TICKETS ===== -->
-  <section id="tickets" class="py-5 text-center bg-primary text-white">
-    <div class="container">
-      <h2 class="mb-4 fw-bold">Get Your Tickets</h2>
-      <p class="mb-4 fs-5">Early-bird prices available until May 1st. Don’t miss out!</p>
-      <a href="#" class="btn btn-warning btn-lg">Purchase Now</a>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="bg-dark text-white text-center py-4">
-    <div class="container">
-      <p class="mb-2">&copy; 2025 Music Fest. All rights reserved.</p>
-      <div class="d-flex justify-content-center gap-3">
-        <a href="#" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="text-white fs-4"><i class="bi bi-twitter-x"></i></a>
+  <!-- Booking Success Drawer -->
+  <div id="successDrawer" class="fixed right-4 bottom-4 md:bottom-6 z-50 hidden">
+    <div class="glass-strong rounded-2xl p-4 md:p-5 w-[90vw] max-w-md shadow-2xl">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-400/20 flex items-center justify-center text-emerald-100">✔</div>
+          <div>
+            <div class="font-extrabold">Booking Confirmed</div>
+            <div id="successSubtitle" class="text-white/80 text-sm">You’re all set!</div>
+          </div>
+        </div>
+        <button id="closeSuccess" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15" aria-label="Close">✕</button>
+      </div>
+      <div class="mt-3 rounded-xl glass p-3 text-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-white/80">Booking ID</span>
+          <span id="successId" class="font-mono text-white/95">—</span>
+        </div>
+        <div class="flex items-center justify-between mt-1">
+          <span class="text-white/80">Show</span>
+          <span id="successShow" class="text-white/95">—</span>
+        </div>
+        <div class="flex items-center justify-between mt-1">
+          <span class="text-white/80">Tickets</span>
+          <span id="successTickets" class="text-white/95">—</span>
+        </div>
+      </div>
+      <div class="mt-3 flex flex-wrap gap-2">
+        <button id="downloadTicket" class="bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-3 py-2">Download Ticket</button>
+        <button id="addToCalendar" class="glass hover:bg-white/10 rounded-lg px-3 py-2">Add to Calendar</button>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <!-- Bootstrap 5 JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  <script>
+    // Sample Data
+    const artists = [
+      { id: 'a1', name: 'Luna Rivera', genre: 'Indie Pop', color: '#f472b6', bio: 'Dreamy vocals and sunset vibes.' },
+      { id: 'a2', name: 'Neon Atlas', genre: 'Synthwave', color: '#60a5fa', bio: 'Retro-future beats to light the night.' },
+      { id: 'a3', name: 'Echo Vale', genre: 'Alt Rock', color: '#f59e0b', bio: 'Guitars that shimmer and soar.' },
+      { id: 'a4', name: 'Kai Nova', genre: 'EDM', color: '#34d399', bio: 'High energy drops and neon storms.' },
+      { id: 'a5', name: 'Maya Sol', genre: 'R&B', color: '#a78bfa', bio: 'Smooth grooves and velvet tones.' },
+      { id: 'a6', name: 'Jet Ember', genre: 'Hip-Hop', color: '#fb7185', bio: 'Bars blazing with stage fire.' }
+    ];
+
+    const shows = [
+      { id: 's1', title: 'Sunset Opening', artistId: 'a1', stage: 'Main', day: 'Day 1', date: '2025-10-21', time: '18:00' },
+      { id: 's2', title: 'Neon Nights', artistId: 'a2', stage: 'Indigo', day: 'Day 1', date: '2025-10-21', time: '21:00' },
+      { id: 's3', title: 'Echo Pulse', artistId: 'a3', stage: 'Echo', day: 'Day 2', date: '2025-10-22', time: '19:30' },
+      { id: 's4', title: 'Nova Afterglow', artistId: 'a4', stage: 'Main', day: 'Day 2', date: '2025-10-22', time: '23:00' },
+      { id: 's5', title: 'Soul Sunrise', artistId: 'a5', stage: 'Indigo', day: 'Day 3', date: '2025-10-23', time: '08:00' },
+      { id: 's6', title: 'Ember Finale', artistId: 'a6', stage: 'Main', day: 'Day 3', date: '2025-10-23', time: '20:30' }
+    ];
+
+    const services = [
+      { id: 'svc1', name: 'Parking Pass', price: 10, desc: 'On-site parking for one vehicle' },
+      { id: 'svc2', name: 'Shuttle Bus', price: 15, desc: 'Round-trip shuttle from downtown' },
+      { id: 'svc3', name: 'Camping Spot', price: 35, desc: 'Bring your tent, 2 nights' },
+      { id: 'svc4', name: 'Merch Pack', price: 25, desc: 'Tee + wristband + sticker pack' },
+      { id: 'svc5', name: 'VIP Lounge', price: 40, desc: 'Quiet lounge + charging + snacks' }
+    ];
+
+    const ticketPrices = { 'General': 49, 'VIP': 119, 'Backstage': 199 };
+
+    // State
+    const state = {
+      favorites: new Set(),
+      serviceSelections: new Set(), // from Services section toggles
+      bookings: [],
+      booking: {
+        showId: shows[0].id,
+        type: 'General',
+        qty: 1,
+        addons: new Set(),
+        name: '',
+        email: ''
+      },
+      filters: { text: '', day: 'All', stage: 'All' }
+    };
+
+    // Helpers
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+    const formatMoney = (n) => `$${n.toFixed(0)}`;
+    const byId = (arr, id) => arr.find(x => x.id === id);
+
+    function combineDateTime(date, time) {
+      // returns Date object in local time
+      const [y,m,d] = date.split('-').map(Number);
+      const [hh,mm] = time.split(':').map(Number);
+      return new Date(y, m-1, d, hh, mm, 0);
+    }
+
+    function toICSDate(dt) {
+      // UTC ICS-friendly
+      const pad = n => String(n).padStart(2,'0');
+      const z = new Date(dt.getTime() - dt.getTimezoneOffset()*60000); // to UTC
+      const yyyy = z.getUTCFullYear();
+      const mm = pad(z.getUTCMonth()+1);
+      const dd = pad(z.getUTCDate());
+      const hh = pad(z.getUTCHours());
+      const mi = pad(z.getUTCMinutes());
+      const ss = '00';
+      return `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;
+    }
+
+    // Rendering
+    function renderShows() {
+      const wrap = $('#showsList');
+      const { text, day, stage } = state.filters;
+      const t = text.trim().toLowerCase();
+
+      const filtered = shows.filter(s => {
+        const a = byId(artists, s.artistId);
+        const matchText = !t || s.title.toLowerCase().includes(t) || a.name.toLowerCase().includes(t) || s.stage.toLowerCase().includes(t);
+        const matchDay = (day === 'All') || s.day === day;
+        const matchStage = (stage === 'All') || s.stage === stage;
+        return matchText && matchDay && matchStage;
+      });
+
+      wrap.innerHTML = '';
+      if (!filtered.length) {
+        wrap.innerHTML = `<div class="glass rounded-2xl p-6 text-white/80 md:col-span-2 lg:col-span-3">No shows found. Try a different search or filters.</div>`;
+        return;
+      }
+
+      filtered.forEach(s => {
+        const artist = byId(artists, s.artistId);
+        const dt = combineDateTime(s.date, s.time);
+        const fav = state.favorites.has(s.id);
+        const card = document.createElement('div');
+        card.className = 'glass rounded-2xl p-5 flex flex-col gap-3';
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="text-sm text-white/70">${s.day} • ${s.stage}</div>
+              <div class="text-xl font-extrabold">${s.title}</div>
+              <div class="text-white/85 text-sm mt-0.5">${artist.name} • ${artist.genre}</div>
+            </div>
+            <button aria-label="Save show" data-save="${s.id}" class="saveShow px-3 py-2 rounded-lg ${fav ? 'bg-white text-slate-900' : 'bg-white/10 hover:bg-white/15'}">
+              ${fav ? '♥' : '♡'}
+            </button>
+          </div>
+          <div class="flex items-center gap-2 text-white/80 text-sm">
+            <span class="px-2 py-1 rounded bg-white/10">${s.time}</span>
+            <span class="px-2 py-1 rounded bg-white/10">${dt.toDateString()}</span>
+          </div>
+          <div class="flex gap-2 mt-1">
+            <button data-book="${s.id}" class="bookShow bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-4 py-2">Book</button>
+            <button data-artist="${artist.id}" class="gotoArtist glass hover:bg-white/10 rounded-lg px-4 py-2">Artist</button>
+          </div>
+        `;
+        wrap.appendChild(card);
+      });
+
+      // Attach events
+      $$('.bookShow', wrap).forEach(b => b.onclick = () => openBooking({ showId: b.dataset.book }));
+      $$('.gotoArtist', wrap).forEach(b => b.onclick = () => {
+        document.location.hash = '#artists';
+        // brief highlight could be added
+      });
+      $$('.saveShow', wrap).forEach(b => b.onclick = () => {
+        const id = b.dataset.save;
+        if (state.favorites.has(id)) state.favorites.delete(id); else state.favorites.add(id);
+        renderShows();
+      });
+    }
+
+    function renderArtists() {
+      const wrap = $('#artistsList');
+      const t = state.filters.text.trim().toLowerCase();
+      const filtered = artists.filter(a =>
+        !t || a.name.toLowerCase().includes(t) || a.genre.toLowerCase().includes(t)
+      );
+      wrap.innerHTML = '';
+      filtered.forEach(a => {
+        const artistShows = shows.filter(s => s.artistId === a.id);
+        const card = document.createElement('div');
+        card.className = 'glass rounded-2xl p-5 flex flex-col gap-3';
+        card.innerHTML = `
+          <div class="flex items-start gap-3">
+            <div class="w-12 h-12 rounded-xl" style="background:${a.color}22; border: 2px solid ${a.color}55;">
+              <svg viewBox="0 0 24 24" class="w-full h-full text-white/85 p-2"><path fill="currentColor" d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5s-5 2.3-5 5s2.3 5 5 5m0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5Z"/></svg>
+            </div>
+            <div class="flex-1">
+              <div class="text-xl font-extrabold">${a.name}</div>
+              <div class="text-white/80 text-sm">${a.genre}</div>
+              <div class="text-white/80 text-sm mt-2">${a.bio}</div>
+            </div>
+          </div>
+          <div class="mt-1">
+            <div class="text-xs text-white/70 mb-1">Upcoming:</div>
+            <div class="flex flex-wrap gap-2">
+              ${artistShows.map(s => `<span class="px-2 py-1 rounded bg-white/10 text-xs">${s.title} • ${s.day}</span>`).join('')}
+            </div>
+          </div>
+          <div class="flex gap-2 mt-1">
+            <button data-book-artist="${a.id}" class="bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-4 py-2">Book</button>
+            <button data-filter-artist="${a.name}" class="glass hover:bg-white/10 rounded-lg px-4 py-2">Filter Shows</button>
+          </div>
+        `;
+        wrap.appendChild(card);
+      });
+
+      $$('button[data-book-artist]').forEach(b => b.onclick = () => {
+        const id = b.dataset.bookArtist;
+        const nextShow = shows.find(s => s.artistId === id) || shows[0];
+        openBooking({ showId: nextShow.id });
+      });
+      $$('button[data-filter-artist]').forEach(b => b.onclick = () => {
+        $('#globalSearch').value = b.dataset.filterArtist;
+        state.filters.text = b.dataset.filterArtist;
+        renderShows(); renderArtists();
+      });
+    }
+
+    function renderServices() {
+      const wrap = $('#servicesList');
+      wrap.innerHTML = '';
+      services.forEach(svc => {
+        const selected = state.serviceSelections.has(svc.id);
+        const card = document.createElement('div');
+        card.className = 'glass rounded-2xl p-5 flex flex-col justify-between';
+        card.innerHTML = `
+          <div>
+            <div class="flex items-start justify-between">
+              <div class="text-xl font-extrabold">${svc.name}</div>
+              <div class="text-lg font-bold">${formatMoney(svc.price)}</div>
+            </div>
+            <div class="text-white/80 mt-1">${svc.desc}</div>
+          </div>
+          <div class="mt-4 flex gap-2">
+            <button data-toggle-svc="${svc.id}" class="px-4 py-2 rounded-lg ${selected ? 'bg-white text-slate-900' : 'bg-white/10 hover:bg-white/15'}">${selected ? 'Selected' : 'Select'}</button>
+            <button data-book-svc="${svc.id}" class="glass hover:bg-white/10 rounded-lg px-4 py-2">Book with this</button>
+          </div>
+        `;
+        wrap.appendChild(card);
+      });
+      $$('button[data-toggle-svc]').forEach(b => b.onclick = () => {
+        const id = b.dataset.toggleSvc;
+        if (state.serviceSelections.has(id)) state.serviceSelections.delete(id);
+        else state.serviceSelections.add(id);
+        renderServices();
+      });
+      $$('button[data-book-svc]').forEach(b => b.onclick = () => {
+        const id = b.dataset.bookSvc;
+        state.serviceSelections.add(id);
+        openBooking({ addonsFromServices: true });
+      });
+    }
+
+    function renderBookings() {
+      const wrap = $('#bookingsList');
+      if (!state.bookings.length) {
+        wrap.innerHTML = `<div class="glass rounded-2xl p-6 text-white/80">No bookings yet. Book your first show to see it here!</div>`;
+        return;
+      }
+      wrap.innerHTML = '';
+      state.bookings.forEach(b => {
+        const s = byId(shows, b.showId);
+        const a = byId(artists, s.artistId);
+        const item = document.createElement('div');
+        item.className = 'glass rounded-2xl p-5 flex flex-col gap-2';
+        item.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="text-sm text-white/70">${s.day} • ${s.stage}</div>
+            <div class="text-xs bg-white/10 px-2 py-1 rounded">ID: ${b.id}</div>
+          </div>
+          <div class="text-xl font-extrabold">${s.title}</div>
+          <div class="text-white/85">${a.name} • ${a.genre}</div>
+          <div class="text-white/85 text-sm">${s.date} at ${s.time}</div>
+          <div class="mt-1 text-white/90 text-sm">${b.qty} × ${b.type}${b.addons.length ? ` • Add-ons: ${b.addons.map(x=>x.name).join(', ')}` : ''}</div>
+          <div class="flex gap-2 mt-2">
+            <button data-ticket="${b.id}" class="bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg px-3 py-2">Download Ticket</button>
+            <button data-ics="${b.id}" class="glass hover:bg-white/10 rounded-lg px-3 py-2">Add to Calendar</button>
+          </div>
+        `;
+        wrap.appendChild(item);
+      });
+      $$('button[data-ticket]').forEach(b => b.onclick = () => downloadTicket(b.dataset.ticket));
+      $$('button[data-ics]').forEach(b => b.onclick = () => addToCalendar(b.dataset.ics));
+    }
+
+    // Booking Modal Logic
+    function openBooking({ showId=null, ticketType=null, addonsFromServices=false } = {}) {
+      if (showId) state.booking.showId = showId;
+      if (ticketType) state.booking.type = ticketType;
+      if (addonsFromServices) {
+        state.booking.addons = new Set([...state.serviceSelections]);
+      }
+      // populate fields
+      const selShow = $('#fieldShow');
+      selShow.innerHTML = shows.map(s => {
+        const a = byId(artists, s.artistId);
+        return `<option value="${s.id}">${s.title} • ${a.name} • ${s.day} ${s.time} (${s.stage})</option>`;
+      }).join('');
+      selShow.value = state.booking.showId;
+
+      $('#fieldType').value = state.booking.type;
+      $('#fieldQty').value = state.booking.qty;
+
+      // populate add-ons
+      const addWrap = $('#addonsList');
+      addWrap.innerHTML = '';
+      services.forEach(svc => {
+        const checked = state.booking.addons.has(svc.id);
+        const row = document.createElement('label');
+        row.className = 'flex items-center gap-3 bg-white/10 rounded-lg px-3 py-2 cursor-pointer';
+        row.innerHTML = `
+          <input type="checkbox" value="${svc.id}" ${checked ? 'checked' : ''} class="accent-white scale-110">
+          <div class="flex-1">
+            <div class="font-semibold">${svc.name}</div>
+            <div class="text-white/80 text-sm">${svc.desc}</div>
+          </div>
+          <div class="font-semibold">${formatMoney(svc.price)}</div>
+        `;
+        addWrap.appendChild(row);
+      });
+
+      updatePrice();
+      $('#bookingModal').classList.remove('hidden');
+    }
+
+    function closeBooking() {
+      $('#bookingModal').classList.add('hidden');
+    }
+
+    function updatePrice() {
+      const type = $('#fieldType').value;
+      const qty = Math.min(10, Math.max(1, Number($('#fieldQty').value || 1)));
+      const base = ticketPrices[type] || 0;
+
+      const selectedAddonIds = Array.from($$('#addonsList input[type="checkbox"]:checked')).map(i => i.value);
+      const addonsTotalPerTicket = selectedAddonIds.reduce((sum, id) => {
+        const s = byId(services, id); return sum + (s ? s.price : 0);
+      }, 0);
+
+      $('#perTicket').textContent = formatMoney(base);
+      $('#addonsPrice').textContent = formatMoney(addonsTotalPerTicket);
+      $('#totalPrice').textContent = formatMoney((base + addonsTotalPerTicket) * qty);
+
+      // mirror state
+      state.booking.type = type;
+      state.booking.qty = qty;
+      state.booking.addons = new Set(selectedAddonIds);
+      state.booking.showId = $('#fieldShow').value;
+    }
+
+    function randomId() {
+      return 'EVT-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+    }
+
+    function confirmBooking(e) {
+      e.preventDefault();
+      const name = $('#fieldName').value.trim();
+      const email = $('#fieldEmail').value.trim();
+      if (!name || !email) {
+        alert('Please enter your name and email to confirm your booking.');
+        return;
+      }
+
+      const b = {
+        id: randomId(),
+        showId: state.booking.showId,
+        type: state.booking.type,
+        qty: state.booking.qty,
+        addons: Array.from(state.booking.addons).map(id => byId(services, id)),
+        name, email
+      };
+      state.bookings.unshift(b);
+      renderBookings();
+
+      // Show success drawer
+      const s = byId(shows, b.showId);
+      const a = byId(artists, s.artistId);
+      $('#successId').textContent = b.id;
+      $('#successShow').textContent = `${s.title} • ${a.name}`;
+      $('#successTickets').textContent = `${b.qty} × ${b.type}`;
+      $('#successDrawer').classList.remove('hidden');
+
+      // reset minimal
+      closeBooking();
+      // Preselect booked services into global selections for convenience
+      state.serviceSelections = new Set(b.addons.map(x => x.id));
+      renderServices();
+    }
+
+    function download(content, filename, type='text/plain') {
+      const blob = new Blob([content], {type});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadTicket(bookingId) {
+      const b = state.bookings.find(x => x.id === bookingId) || state.bookings[0];
+      if (!b) return;
+      const s = byId(shows, b.showId);
+      const a = byId(artists, s.artistId);
+      const dt = combineDateTime(s.date, s.time);
+      const lines = [
+        '==== EVENT FEST TICKET ====',
+        `Booking ID: ${b.id}`,
+        `Name: ${b.name}`,
+        `Email: ${b.email}`,
+        `Show: ${s.title} — ${a.name}`,
+        `Date: ${s.date} ${s.time}`,
+        `Stage: ${s.stage}`,
+        `Tickets: ${b.qty} × ${b.type}`,
+        `Add-ons: ${b.addons.length ? b.addons.map(x => x.name).join(', ') : 'None'}`,
+        'Location: City Park Grounds',
+        'Please arrive 30 minutes early. Enjoy the show!',
+        '===========================',
+      ].join('\n');
+      download(lines, `EventFest_${b.id}.txt`);
+    }
+
+    function addToCalendar(bookingId) {
+      const b = state.bookings.find(x => x.id === bookingId) || state.bookings[0];
+      if (!b) return;
+      const s = byId(shows, b.showId);
+      const a = byId(artists, s.artistId);
+      const start = combineDateTime(s.date, s.time);
+      const end = new Date(start.getTime() + 90*60000); // +90 minutes
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Event Fest//EN
+BEGIN:VEVENT
+UID:${b.id}@eventfest
+DTSTAMP:${toICSDate(new Date())}
+DTSTART:${toICSDate(start)}
+DTEND:${toICSDate(end)}
+SUMMARY:${s.title} — ${a.name}
+LOCATION:City Park Grounds
+DESCRIPTION:Event Fest booking (${b.qty} x ${b.type})
+END:VEVENT
+END:VCALENDAR`;
+      download(ics, `EventFest_${b.id}.ics`, 'text/calendar');
+    }
+
+    // Events
+    $('#bookingForm').addEventListener('submit', (e) => e.preventDefault());
+    $('#confirmBooking').addEventListener('click', confirmBooking);
+    $('#cancelBooking').addEventListener('click', closeBooking);
+    $('#closeBooking').addEventListener('click', closeBooking);
+    $('#qtyMinus').addEventListener('click', () => { const i=$('#fieldQty'); i.value=Math.max(1, Number(i.value)-1); updatePrice(); });
+    $('#qtyPlus').addEventListener('click', () => { const i=$('#fieldQty'); i.value=Math.min(10, Number(i.value)+1); updatePrice(); });
+    $('#fieldType').addEventListener('change', updatePrice);
+    $('#fieldQty').addEventListener('input', updatePrice);
+    $('#fieldShow').addEventListener('change', updatePrice);
+    $('#addonsList').addEventListener('change', updatePrice);
+
+    $('#downloadTicket').addEventListener('click', () => {
+      if (!state.bookings.length) return;
+      downloadTicket(state.bookings[0].id);
+    });
+    $('#addToCalendar').addEventListener('click', () => {
+      if (!state.bookings.length) return;
+      addToCalendar(state.bookings[0].id);
+    });
+    $('#closeSuccess').addEventListener('click', () => $('#successDrawer').classList.add('hidden'));
+
+    // Hero buttons
+    $('#bookTicketsBtn').addEventListener('click', () => openBooking());
+    $('#openBookingHero').addEventListener('click', () => openBooking());
+    $('#exploreLineup').addEventListener('click', (e) => {
+      // smooth scroll to lineup (no navigation)
+      e.preventDefault();
+      document.querySelector('#lineup').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Tickets buttons
+    $$('.selectTicket').forEach(b => b.addEventListener('click', () => openBooking({ ticketType: b.dataset.ticket })));
+
+    // Services controls
+    $('#addServicesToBooking').addEventListener('click', () => {
+      state.booking.addons = new Set([...state.serviceSelections]);
+      openBooking({ addonsFromServices: true });
+    });
+    $('#openBookingFromServices').addEventListener('click', () => openBooking({ addonsFromServices: true }));
+
+    // Search + filters
+    $('#globalSearch').addEventListener('input', (e) => {
+      state.filters.text = e.target.value;
+      renderShows(); renderArtists();
+    });
+    $('#clearSearch').addEventListener('click', () => {
+      $('#globalSearch').value = '';
+      state.filters.text = '';
+      renderShows(); renderArtists();
+    });
+
+    $$('.chip-day').forEach(btn => btn.addEventListener('click', () => {
+      state.filters.day = btn.dataset.day;
+      $$('.chip-day').forEach(b => b.classList.remove('bg-white','text-slate-900','font-semibold','active'));
+      btn.classList.add('bg-white','text-slate-900','font-semibold','active');
+      renderShows();
+    }));
+
+    $$('.chip-stage').forEach(btn => btn.addEventListener('click', () => {
+      state.filters.stage = btn.dataset.stage;
+      $$('.chip-stage').forEach(b => b.classList.remove('bg-white','text-slate-900','font-semibold','active'));
+      btn.classList.add('bg-white','text-slate-900','font-semibold','active');
+      renderShows();
+    }));
+
+    // Initial render
+    renderShows();
+    renderArtists();
+    renderServices();
+    renderBookings();
+
+    // Preload booking defaults once
+    state.booking.showId = shows[0].id;
+    state.booking.type = 'General';
+    state.booking.qty = 1;
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9818f180829abd1d',t:'MTc1ODI4MzQ0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
